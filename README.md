@@ -1,1 +1,182 @@
-# UEMA-Maranhao
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UEMA — Verificação de Diploma</title>
+
+  <style>
+    :root {
+      --bg: #003366;        /* Azul UEMA */
+      --card: #ffffff;
+      --accent: #CC0000;    /* Vermelho UEMA */
+      --muted: #e5e5e5;
+      --text: #000;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text);
+    }
+
+    .container {
+      background: var(--card);
+      padding: 28px;
+      width: 480px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+      border-top: 6px solid #FFC20E; /* faixa amarela da UEMA */
+    }
+
+    h1 {
+      margin: 0 0 4px 0;
+      color: var(--accent);
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .slogan {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 18px;
+      color: #333;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--muted);
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .result {
+      margin-top: 14px;
+      background: var(--muted);
+      padding: 14px;
+      border-radius: 8px;
+      min-height: 60px;
+    }
+
+    .loading {
+      text-align: center;
+      font-weight: bold;
+      color: var(--accent);
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: .5; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>UEMA — Verificação de Diploma</h1>
+    <div class="slogan">"Educação para Transformar"</div>
+
+    <p>Digite o número de registro exatamente como informado:</p>
+
+    <input id="codigo" placeholder="Ex: 57557-87" />
+    <button onclick="verificar()">Verificar</button>
+
+    <div id="resultado" class="result"></div>
+  </div>
+
+  <script>
+    function normalizar(s) {
+      return String(s)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase()
+        .replace(/\s+/g, "")
+        .trim();
+    }
+
+    /* 🔵🔴🟡 REGISTROS UEMA — Atualizados */
+    const registros = {
+      "UEMA12345-6": {
+        nome: "Julio Cezar de Oliveira",
+        curso: "Mestrado em Educação Matemática",
+        conclusao: "10/06/2019",
+        status: "Ativo",
+        polo: "Universidade Estadual do Maranhão - UEMA"
+      },
+
+      "UEMA44567-9": {
+        nome: "Ana Luiza Carvalho Mendes",
+        curso: "Licenciatura em História",
+        conclusao: "22/07/2024",
+        status: "Ativo",
+        polo: "UEMA — Campus São Luís"
+      },
+
+      /* 📌 REGISTRO SOLICITADO */
+      "57557-87": {
+        nome: "Maria Iranilce Batista Viana",
+        curso: "Mestrado em Educação",
+        conclusao: "19/08/2022",
+        status: "Ativo",
+        polo: "Universidade Estadual do Maranhão - UEMA"
+      }
+    };
+
+    function verificar() {
+      const valor = document.getElementById("codigo").value.trim();
+      const saida = document.getElementById("resultado");
+
+      if (!valor) {
+        saida.innerHTML = "<strong>Digite um código.</strong>";
+        return;
+      }
+
+      saida.innerHTML = '<div class="loading">Verificando...</div>';
+
+      setTimeout(() => {
+        const chave = Object.keys(registros)
+          .find(k => normalizar(k) === normalizar(valor));
+
+        if (!chave) {
+          saida.innerHTML = "<strong>Código não encontrado na base da UEMA.</strong>";
+          return;
+        }
+
+        const r = registros[chave];
+
+        saida.innerHTML = `
+          <strong>Aluno:</strong> ${r.nome}<br/>
+          <strong>Curso:</strong> ${r.curso}<br/>
+          <strong>Conclusão:</strong> ${r.conclusao}<br/>
+          <strong>Status:</strong> ${r.status}<br/>
+          <strong>Campus/Polo:</strong> ${r.polo}
+        `;
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
