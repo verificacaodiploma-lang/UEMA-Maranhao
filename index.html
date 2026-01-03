@@ -7,9 +7,9 @@
 
   <style>
     :root {
-      --bg: #003366;        /* Azul UEMA */
+      --bg: #003366;
       --card: #ffffff;
-      --accent: #CC0000;    /* Vermelho UEMA */
+      --accent: #CC0000;
       --muted: #e5e5e5;
       --text: #000;
     }
@@ -30,7 +30,7 @@
       width: 480px;
       border-radius: 16px;
       box-shadow: 0 6px 18px rgba(0,0,0,.25);
-      border-top: 6px solid #FFC20E; /* faixa amarela da UEMA */
+      border-top: 6px solid #FFC20E;
     }
 
     h1 {
@@ -102,7 +102,7 @@
 
     <p>Digite o número de registro exatamente como informado:</p>
 
-    <input id="codigo" placeholder="Ex: 57557-87" />
+    <input id="codigo" placeholder="Ex: 3973258-76" />
     <button onclick="verificar()">Verificar</button>
 
     <div id="resultado" class="result"></div>
@@ -118,8 +118,9 @@
         .trim();
     }
 
-    /* 🔵🔴🟡 REGISTROS UEMA — Atualizados */
+    /* 🔵🔴🟡 BASE DE REGISTROS UEMA */
     const registros = {
+
       "UEMA12345-6": {
         nome: "Julio Cezar de Oliveira",
         curso: "Mestrado em Educação Matemática",
@@ -136,14 +137,30 @@
         polo: "UEMA — Campus São Luís"
       },
 
-      /* 📌 REGISTRO SOLICITADO */
       "57557-87": {
         nome: "Maria Iranilce Batista Viana",
         curso: "Mestrado em Educação",
         conclusao: "19/08/2022",
         status: "Ativo",
         polo: "Universidade Estadual do Maranhão - UEMA"
+      },
+
+      "3973258-76": {
+        nome: "Maria Marta Viana da Silva",
+        curso: "Mestrado em Educação Especial",
+        conclusao: "19/12/2024",
+        status: "Ativo",
+        polo: "Universidade Estadual do Maranhão - UEMA"
+      },
+
+      "250724-23": {
+        nome: "Maria Marta Viana da Silva",
+        curso: "Doutorado em Educação Especial",
+        conclusao: "19/10/2025",
+        status: "Ativo",
+        polo: "Universidade Estadual do Maranhão - UEMA"
       }
+
     };
 
     function verificar() {
